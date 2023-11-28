@@ -26,16 +26,16 @@ class MyScene extends Phaser.Scene {
     
   // 毎フレーム実行される繰り返し処理
     update() {
-        if(this.player_direction1.y >= D_HEIGHT - 100) this.player_direction1 = -1;
-        if(this.player_direction1.y <= 100) this.player_direction1 = 1;
+        if(this.player1.y >= D_HEIGHT - 100) this.player_direction1 = -1;
+        if(this.player1.y <= 100) this.player_direction1 = 1;
         if(this.player_direction1 == 1) {
             this.player1.y += 10;
         } else {
             this.player1.y -= 10;
         }
 
-        if(this.player_direction1.x >= D_WIDTH - 100) this.player_direction1 = -1;
-        if(this.player_direction1.x <= 100) this.player_direction1 = 1;
+        if(this.player1.x >= D_WIDTH - 100) this.player_direction1 = -1;
+        if(this.player1x <= 100) this.player_direction1 = 1;
         if(this.player_direction1 == 1) {
             this.player1.x += 10;
         } else {

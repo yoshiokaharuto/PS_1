@@ -1,8 +1,9 @@
+let config;
 let game;
 
 // ゲーム画面サイズ
 const D_WIDTH = 800;
-const D_HEIGHT = 450;
+const D_HEIGHT = 600;
 
 // ページ読み込み完了時に実行
 window.onload = function() {
@@ -20,7 +21,7 @@ window.onload = function() {
                 gravity: {
                     y: 0
                 }, // 重力
-                debug: false // デバックモード
+                debug: true // デバックモード
             }
         },
         scene: [MyScene], // デフォルトシーン
