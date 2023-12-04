@@ -18,13 +18,27 @@ class MyScene extends Phaser.Scene {
 
     // シーン初期化処理
     create() {
-         // 単体画像をシーンに追加(X座標,Y座標,画像名)
+        // 単体画像をシーンに追加(X座標,Y座標,画像名)
         this.add.image(400, 300, 'background');
         this.player1 = this.add.image(400, 300, 'taro');
         this.player2 = this.add.image(400, 400, 'jiro');
         this.player_direction1 = 1;
         this.player1.angle = 0;
+        
         this.text = this.add.text(10, 10, 'Scene 1').setFontSize(32).setColor('#ff0');
+        this.text = this.add.text(600,400 , 'MyWorld');
+
+        this.text1 = this.add.text(100,50 , 'Hello!');
+        this.text2 = this.add.text(100,50 , 'Hey!');
+
+        this.text1.setVisible(false);
+        this.text2.setVisible(false);
+
+        this.keys = {};
+        this.keys.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.keys.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keys.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keys.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
     arrow_move(cursors, object){
@@ -36,6 +50,20 @@ class MyScene extends Phaser.Scene {
             console.log("Right!!");
             this.player1.x += 10;
             this.player2.x -= 10;
+        }
+    }
+
+    wasd_move(keys,object){
+        if(keys.keyA.isDown){
+            console.log("A");
+            this.text1.setVisible(true);
+        } else if(keys.keyS.isDown){
+            console.log("S");
+            this.text2.setVisible(true);
+        } else if(keys.keyD.isDown) {
+            console.log("D");
+            this.text1.setVisible(false);
+            this.text2.setVisible(false);
         }
     }
     
@@ -52,9 +80,11 @@ class MyScene extends Phaser.Scene {
         // if(this.player_direction1 == 1) {
         //     this.player1.x += 5;
         // }
-
         let cursors = this.input.keyboard.createCursorKeys();
 
         this.arrow_move(cursors,this.player1)
+        this.wasd_move(this.keys, this.text1);
+        this.wasd_move(this.keys, this.text2);
+        this.wasd_move(this.keys, this.text3);
     }
 }
