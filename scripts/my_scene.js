@@ -21,8 +21,9 @@ class MyScene extends Phaser.Scene {
     create() {
         // 単体画像をシーンに追加(X座標,Y座標,画像名)
         this.add.image(400, 300, 'background');
-        this.player1 = this.add.image(400, 300, 'taro');
-        this.player2 = this.add.image(400, 400, 'jiro');
+        const player1 = this.add.image(400, 300, 'taro');
+        this.player1 = player1;
+        // this.player2 = this.add.image(400, 400, 'jiro');
         // this.player_direction1 = 1;
         // this.player1.angle = 0;
         
@@ -38,6 +39,11 @@ class MyScene extends Phaser.Scene {
         //  const hanako = this.add.image(100,100,'hanako'); 
         //  this.hanako = hanako;
 
+        this._timeCounter = 0;  //msの経過時間を保存するカウンター 
+        this._leftTime = 3;   //残り時間
+        this._leftTimeText = this.add.text(1, 1, 'Time: ' + this._leftTime, { fontSize: '1px', fill: '#FFF' ,fontFamily: "Arial"}); //時間表示
+        this.countdowntimer = true;
+
         this.keys = {};
         this.keys.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keys.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -45,15 +51,26 @@ class MyScene extends Phaser.Scene {
         this.keys.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
+
     arrow_move(cursors, object){
          if(cursors.left.isDown){
             console.log("Left");
             this.player1.x -= 10;
-            this.player2.x += 10;
+            // this.player2.x += 10;
+            // object.setVelocityX(-10);
         }else if(cursors.right.isDown){
             console.log("Right!!");
             this.player1.x += 10;
-            this.player2.x -= 10;
+            // this.player2.x -= 10;
+            // object.setVelocityX(10);
+        }else if(cursors.up.isDown) {
+            //console.log("Up!");
+            this.player1.y -= 10;// 上方向に移動    
+            // object.setVelocityY(-10);
+        } else if(cursors.down.isDown) {
+            //console.log("Down!");    
+            this.player1.y += 10;// 下方向に移動
+            // object.setVelocityY(10);
         }
     }
 
@@ -77,9 +94,9 @@ class MyScene extends Phaser.Scene {
         //     // this.text1.setVisible(true);
         // }
     }
-    
+
   // 毎フレーム実行される繰り返し処理
-    update() {
+    update(time,delta) {
         // this.player1.angle += 50;
         // // if(this.player1.y >= D_HEIGHT - 100) this.player_direction1 = -1;
         // if(this.player1.y <= 100) this.player_direction1 = 1;
@@ -98,5 +115,20 @@ class MyScene extends Phaser.Scene {
         // this.wasd_move(this.keys, this.text2);
         // this.wasd_move(this.keys, this.text3);
         this.wasd_move(this.keys,this.hanako);
+
+        this._timeCounter += delta;
+
+        if(this._timeCounter > 1000) {
+            // 1000ミリ秒経過したのでカウンターをリセット
+            this._timeCounter = 0;
+            // 残り時間を減らす
+            this._leftTime --;
+            // テキストを更新する
+            this._leftTimeText.setText('Time: ' + this._leftTime);
+        }
+        if(this._leftTime <= 0) {
+            this._leftTime = 10000000000000;
+            this.hanako = this.add.image(Phaser.Math.Between(200,400),Phaser.Math.Between(100,200),'hanako');
+        }
     }
 }
